@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PublishingHouseTest extends TestCase
 {
@@ -13,14 +15,18 @@ class PublishingHouseTest extends TestCase
      */
     public function testGetAllPublishingHouses()
     {
-        $response = $this->get('book/publishing-house');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('book/publishing-house');
         $response
             ->assertStatus(200);
     }
 
     public function testGetOnePublishingHouseById()
     {
-        $response = $this->get('book/publishing-house/1');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('book/publishing-house/1');
         $response
             ->assertStatus(200);
     }

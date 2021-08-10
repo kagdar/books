@@ -2,10 +2,14 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class AuthorTest extends TestCase
 {
+
     /**
      * A basic unit test example.
      *
@@ -14,14 +18,19 @@ class AuthorTest extends TestCase
 
     public function testGetAllAuthors()
     {
-        $response = $this->get('book/author');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('book/author');
         $response
             ->assertStatus(200);
     }
 
     public function testGetOneAuthorById()
     {
-        $response = $this->get('book/author/1');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('book/author/1');
         $response
             ->assertStatus(200);
     }

@@ -2,8 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use Tests\TestCase;
-
+use Tymon\JWTAuth\Facades\JWTAuth;
 class ImportTest extends TestCase
 {
     /**
@@ -13,7 +14,9 @@ class ImportTest extends TestCase
      */
     public function testImport()
     {
-        $response = $this->postJson('book/import-json', [
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->postJson('book/import-json', [
             [
                 'title' => 'testImport1',
                 'author' => "Ivanov I",

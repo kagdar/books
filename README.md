@@ -7,6 +7,30 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+##How to install project
+
+For correct work you must have on your server:
+1) PHP 7.4 (or higher) 
+2) MySQL 8.0 (or higher)
+3) Composer 2 (or higher)
+
+1. copy env.example file and rename copy on .env
+
+2. Create db in MySQL. User, host and password you must edit .env file
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+
+3. do it in bash: 
+3.1 composer install
+3.2 php artisan secret (it make secret for JWT token)
+3.3 php artisan migrate --seed
+
+Thats all, folks) For test make: php artisan test
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

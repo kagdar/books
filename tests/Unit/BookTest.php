@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BookTest extends TestCase
 {
@@ -13,28 +15,36 @@ class BookTest extends TestCase
      */
     public function testGetAllBooks()
     {
-        $response = $this->get('book/books');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('book/books');
         $response
             ->assertStatus(200);
     }
 
     public function testGetOneBookById()
     {
-        $response = $this->get('book/books/1');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('book/books/1');
         $response
             ->assertStatus(200);
     }
 
     public function testDeleteOneBookById()
     {
-        $response = $this->delete('book/books/4');
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete('book/books/4');
         $response
             ->assertStatus(200);
     }
 
     public function testCreateNewBook()
     {
-        $response = $this->postJson('book/books', [
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->postJson('book/books', [
             'title' => 'test1',
             'author_id' => 1,
             'publishing_house_id' => 2,
@@ -47,7 +57,9 @@ class BookTest extends TestCase
 
     public function testUpdateBook()
     {
-        $response = $this->putJson('book/books/1', [
+        $user = User::all()->first();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->putJson('book/books/1', [
             'title' => 'testUpdate',
             'author_id' => 1,
             'publishing_house_id' => 2,
